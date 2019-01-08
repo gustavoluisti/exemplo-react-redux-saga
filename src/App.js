@@ -8,6 +8,8 @@ import Info from './Info'
 
 import createSagaMiddleware from 'redux-saga'
 import axios from 'axios'
+import { put } from 'redux-saga/effects'
+import { loadDataSuccess } from './actions';
 
 const sagaMiddleware = createSagaMiddleware()
 
@@ -16,12 +18,10 @@ const store = createStore(
   applyMiddleware(sagaMiddleware)
   )
 
-
-
   function *ola(){
     console.log('Hello from saga')
-    const dados = yield axios.get('http://httpbin.org/ip')
-    console.log(dados)
+    const dados = yield axios.get('https://httpbin.org/ip')
+    yield put(loadDataSuccess(dados.data.origin))
   }
 
   sagaMiddleware.run(ola)
